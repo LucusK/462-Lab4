@@ -1,6 +1,7 @@
 import time
 import math
 import board
+import busio
 
 import adafruit_mpu6050
 # perf_counter is more precise than time() for dt calculation
