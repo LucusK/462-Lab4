@@ -14,11 +14,13 @@ acc_lpf = 0
 
 step_count = 0
 last_step_time = 0
-minimum_step_time = 0.25
+minimum_step_time = 0.5
+
+going_up = 1
+going_down = 0.25
+foo = True
 while True:
-    print(
-        f"Acceleration: X:{mpu.acceleration[0]:.2f}, Y: {mpu.acceleration[1]:.2f}, Z: {mpu.acceleration[2]:.2f} m/s^2"  # noqa: E501
-    )
+    #print(f"Acceleration: X:{mpu.acceleration[0]:.2f}, Y: {mpu.acceleration[1]:.2f}, Z: {mpu.acceleration[2]:.2f} m/s^2")  # noqa: E501
 
     start = perf_counter()
     ax, ay, az = mpu.acceleration
@@ -31,10 +33,13 @@ while True:
     acc_lpf = (0.8)*acc_lpf + (1-0.8)*acceleration_no_gravity
 
     current_time = perf_counter()
-    if acc_lpf > 1 and (current_time - last_step_time) > minimum_step_time:
+    if foo and acc_lpf > going_up and (current_time - last_step_time) > minimum_step_time:
         step_count += 1
         last_step_time = current_time
+        foo = False
         print(f"Total Steps = {step_count}")
     
-    print("")
-    time.sleep(0.01)
+    if(not foo) and acc_lpf < going_down:
+        foo = True
+    #print("")
+    time.sleep(0.1)
