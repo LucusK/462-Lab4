@@ -26,7 +26,8 @@ while True:
 
     acceleration_no_gravity = acc - 8.81
 
-    #use low pass filter
+    #use low pass filter to reduce noise
+    #formula is y = ax + (1-a)y
     acc_lpf = (0.8)*acc_lpf + (1-0.8)*acceleration_no_gravity
 
     current_time = perf_counter()
