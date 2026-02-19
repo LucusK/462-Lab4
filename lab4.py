@@ -14,7 +14,7 @@ acc_lpf = 0
 
 step_count = 0
 last_step_time = 0
-minimum_step_time = 0.5
+minimum_step_time = 0.25
 while True:
     print(
         f"Acceleration: X:{mpu.acceleration[0]:.2f}, Y: {mpu.acceleration[1]:.2f}, Z: {mpu.acceleration[2]:.2f} m/s^2"  # noqa: E501
@@ -27,13 +27,13 @@ while True:
     acceleration_no_gravity = acc - 8.81
 
     #use low pass filter
-    acc_lpf = (0.5)*acc_lpf + (1-0.5)*acceleration_no_gravity
+    acc_lpf = (0.8)*acc_lpf + (1-0.8)*acceleration_no_gravity
 
     current_time = perf_counter()
-    if acceleration_no_gravity > 1 and (current_time - last_step_time) > minimum_step_time:
+    if acc_lpf > 1 and (current_time - last_step_time) > minimum_step_time:
         step_count += 1
         last_step_time = current_time
         print(f"Total Steps = {step_count}")
     
     print("")
-    time.sleep(1)
+    time.sleep(0.01)
