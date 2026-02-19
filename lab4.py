@@ -11,6 +11,7 @@ i2c = busio.I2C(board.SCL, board.SDA)
 mpu = adafruit_mpu6050.MPU6050(i2c)
 acc_lpf = 0
 
+step_count = 0
 last_step_time = 0
 minimum_step_time = 0.5
 while True:
@@ -22,7 +23,7 @@ while True:
     ax, ay, az = mpu.acceleration
     acc = math.sqrt(ax**2 + ay**2 + az**2)
 
-    acceleration_no_gravity = acc - 9.81
+    acceleration_no_gravity = acc - 8.81
 
     #use low pass filter
     acc_lpf = (0.5)*acc_lpf + (1-0.5)*acceleration_no_gravity
